@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harmony Director for FM-1</title>
+  <style>
+    :root {
+      --bg: #0b0e16;
+      --surface: #141926;
+      --surface-2: #1b2234;
+      --border: #2a344d;
+      --text: #eef2fa;
+      --muted: #9aa7c2;
+      --accent: #40d2ff;
+      --gold: #ffc840;
+      --green: #2ec46e;
+      --warn-bg: #2a2112;
+      --warn-border: #8a621c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 36px 20px 64px;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(64, 210, 255, 0.14);
+      color: var(--accent);
+      border: 1px solid rgba(64, 210, 255, 0.35);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4.5vw, 40px);
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 680px;
+    }
+    h2 {
+      margin: 32px 0 14px;
+      font-size: 20px;
+      color: var(--text);
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card.recommended {
+      border-color: rgba(46, 196, 110, 0.55);
+      background: linear-gradient(180deg, rgba(46, 196, 110, 0.07), var(--surface) 45%);
+    }
+    .pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .pill.rec { background: var(--green); color: #081a10; }
+    .pill.alt { background: var(--surface-2); color: var(--accent); border: 1px solid var(--border); }
+    ol, ul {
+      margin: 10px 0 18px;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+    li { margin-bottom: 6px; }
+    li strong { color: var(--text); }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: auto;
+    }
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      transition: opacity 0.15s ease;
+    }
+    .btn:hover { opacity: 0.88; }
+    .btn.primary { background: var(--accent); color: #06131c; }
+    .btn.green { background: var(--green); color: #06180d; }
+    .btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+    .notice {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 18px 0 0;
+      font-size: 14px;
+      color: #f6ddb0;
+    }
+    .notice strong { color: var(--gold); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    tr:last-child td { border-bottom: none; }
+    code {
+      background: var(--surface-2);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media print {
+      body { background: #fff; color: #111; }
+      .card, table, .notice { background: #fff; border-color: #ccc; color: #111; }
+      th { background: #eee; color: #111; }
+      .btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">Firmware v2.2 &bull; M-VAVE FM-1</div>
+      <h1>Harmony Director for FM-1</h1>
+      <p class="subtitle">
+        Dedicated rehearsal podium firmware for the M-VAVE FM-1 synthesizer:
+        polyphonic drones, live-switchable Equal &amp; Pure Just Intonation,
+        C / B&#9837; / E&#9837; / F transposition, and a Boss DB-90 style Dr. Beat metronome with adaptive drum grooves.
+      </p>
+    </header>
+
+    <h2>Install on Your FM-1</h2>
+    <div class="grid">
+      <div class="card recommended">
+        <div>
+          <span class="pill rec">Recommended &bull; Personal Mac / Windows PC</span>
+          <h3>Option 1: M-Flasher + Recovery Bootloader</h3>
+          <p style="margin:0;color:var(--muted);font-size:14px;">
+            Stock FM-1 units have no physical rescue button. Installing <strong>m-bootloader</strong> first adds brick protection and saves a verified backup of your factory firmware.
+          </p>
+          <ol>
+            <li>Download <a href="https://jvitkauskas.github.io/m-apps/flasher/" target="_blank" rel="noopener" style="color:var(--accent)">M-Flasher</a> and <a href="https://github.com/jvitkauskas/m-bootloader" target="_blank" rel="noopener" style="color:var(--accent)">m-bootloader</a>.</li>
+            <li>Connect your powered-on FM-1 directly via USB data cable and click <strong>DOWNLOAD MODE</strong> (click <em>Ignore</em> if macOS warns about an unreadable disk).</li>
+            <li>Click <strong>Back up the whole flash</strong> to keep a safe factory restore copy, then install <strong>m-bootloader</strong>.</li>
+            <li>Click <strong>Install firmware (.fwsc)</strong>, select <code>HarmonyDirector-FM1-v2.2.fwsc</code>, wait for 100%, and power-cycle.</li>
+          </ol>
+        </div>
+        <div class="actions">
+          <a class="btn green" href="HarmonyDirector-FM1-v2.2.fwsc" download>Download HarmonyDirector-FM1-v2.2.fwsc</a>
+          <a class="btn secondary" href="https://jvitkauskas.github.io/m-apps/flasher/" target="_blank" rel="noopener">Get M-Flasher</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <span class="pill alt">Quick Install &bull; School Laptop / Chromebook</span>
+          <h3>Option 2: One-Click Web Installer</h3>
+          <p style="margin:0;color:var(--muted);font-size:14px;">
+            No software downloads or admin rights required. Works directly in <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong> (Safari is not supported).
+          </p>
+          <ol>
+            <li>Plug your powered-on FM-1 directly into your computer with a USB data cable (avoid unpowered USB hubs).</li>
+            <li>Open the Web Installer below and click <strong>Allow</strong> when prompted for MIDI / SysEx access.</li>
+            <li>Click <strong>Install</strong> and keep the browser tab in front without touching the cable until verification reaches 100%.</li>
+            <li>Switch the FM-1 off and back on.</li>
+          </ol>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="webapp/installer/">Open Web Installer</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice">
+      <strong>Note during Web Install:</strong> Because this firmware is built on the Felucca open-source hardware layer, the Web Installer and your computer's USB list will show the device port as <strong>Felucca</strong> or <strong>FM-1_900</strong>. That is normal&mdash;it installs Harmony Director v2.2 directly.
+    </div>
+
+    <h2>Podium Control Map (v2.2)</h2>
+
+    <table>
+      <thead>
+        <tr><th style="width:32%">Always-Live Controls</th><th>Function (Works on Both Pages)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>27 Keys (F3&ndash;G5)</strong></td><td>Play single pitches or stack fingers to hold chords (up to 8 voices)</td></tr>
+        <tr><td><strong>ARP</strong></td><td>Toggle <strong>HOLD</strong> (ON at boot; tap the same held key again to silence)</td></tr>
+        <tr><td><strong>HOME</strong></td><td>Instant <strong>Drone Silence / All Notes Off</strong> (keeps HOLD armed)</td></tr>
+        <tr><td><strong>SEQ</strong></td><td>Switch <strong>KNOB 1&ndash;4</strong> between <strong>DRONE</strong> page and <strong>DR. BEAT</strong> page</td></tr>
+        <tr><td><strong>PLAY</strong></td><td>Metronome <strong>Start / Stop</strong></td></tr>
+        <tr><td><strong>REC</strong></td><td><strong>Tap Tempo</strong> (4-tap average)</td></tr>
+        <tr><td><strong>SELECT Knob</strong></td><td>Fine BPM dial (<code>30&ndash;250</code>)</td></tr>
+        <tr><td><strong>GLO / EDIT</strong></td><td>Snap BPM <strong>Up / Down</strong> on the standard Maelzel metronome scale (<code>72, 76, 80, 84, 88, 92, 96, 100&hellip;</code>)</td></tr>
+        <tr><td><strong>ALGORITHM</strong> (or <strong>LFO</strong>)</td><td>Time signature: <code>4/4</code> &bull; <code>3/4</code> &bull; <code>2/4</code> &bull; <code>5/4</code> &bull; <code>6/8</code> &bull; <code>1/4</code></td></tr>
+        <tr><td><strong>PRESETS Knob</strong></td><td>Click tone: <code>DB-90</code> &bull; <code>WOOD</code> &bull; <code>DRUMS</code> (smart Kick/Snare/Hat per meter) &bull; <code>ACCENT</code></td></tr>
+        <tr><td><strong>OCT&minus; / OCT+</strong></td><td>Shift keyboard octave (<code>O1&ndash;O5</code>)</td></tr>
+        <tr><td><strong>MASTER Knob</strong></td><td>Overall speaker / 3.5mm output volume</td></tr>
+      </tbody>
+    </table>
+
+    <div class="grid">
+      <table>
+        <thead>
+          <tr><th style="width:42%">DRONE Page (KNOB 1&ndash;4)</th><th>Function</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>KNOB 1</strong> / <strong>ENV</strong></td><td>Voice: <code>SINE</code> &bull; <code>REED</code> &bull; <code>BRASS</code> &bull; <code>OCTAVE</code></td></tr>
+          <tr><td><strong>KNOB 2</strong> / <strong>SCL</strong></td><td>Tuning: <code>EQUAL</code> &bull; <code>PURE</code> (5-limit JI to lowest held note)</td></tr>
+          <tr><td><strong>KNOB 3</strong> / <strong>FX</strong></td><td>Transposition: <code>C</code> &bull; <code>B&#9837;</code> &bull; <code>E&#9837;</code> &bull; <code>F</code></td></tr>
+          <tr><td><strong>KNOB 4</strong> / <strong>SAVE</strong></td><td>Screen Theme: <code>DARK</code> &bull; <code>LIGHT</code> &bull; <code>AMBER</code> &bull; <code>BLUE</code></td></tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead>
+          <tr><th style="width:42%">DR. BEAT Page (KNOB 1&ndash;4)</th><th>Subdivision Faders (0&ndash;10)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>KNOB 1</strong></td><td><strong>Quarter</strong> (Beat pulse / Kick &amp; Snare in DRUMS)</td></tr>
+          <tr><td><strong>KNOB 2</strong></td><td><strong>Eighth</strong> (<code>&amp;</code> upbeat / Hi-Hat)</td></tr>
+          <tr><td><strong>KNOB 3</strong></td><td><strong>Triplet</strong> (3-per-beat subdivision)</td></tr>
+          <tr><td><strong>KNOB 4</strong></td><td><strong>Sixteenth</strong> (<code>1 e &amp; a</code> &mdash; works standalone)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th style="width:32%">Shortcuts &amp; Recovery</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>GLO + HOME (hold 1s)</strong></td><td>Switch between <strong>Harmony Director</strong> and stock <strong>Felucca</strong> synth mode</td></tr>
+        <tr><td><strong>OCT&minus; + OCT+ (hold 5s)</strong></td><td>Enter USB <strong>UBOOT</strong> update mode</td></tr>
+        <tr><td><strong>REC / PLAY on power-on</strong></td><td>Hardware Download Mode / Recovery Menu (when <code>m-bootloader</code> is installed)</td></tr>
+      </tbody>
+    </table>
+
+    <footer>
+      Harmony Director for FM-1 (v2.2) &mdash; Open-source firmware built on
+      <a href="https://github.com/hugelton/Felucca" target="_blank" rel="noopener">Felucca</a>
+      (<a href="LICENSE">GPL-3.0</a>). Packaging includes Apache-2.0 boot files (<a href="LICENSING.md">LICENSING.md</a>).
+    </footer>
+  </div>
+</body>
+</html>
